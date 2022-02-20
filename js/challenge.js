@@ -3,8 +3,15 @@ let seconds = 0;
 let isPaused = false;
 
 
-function countSeconds() {
+document.addEventListener("DOMContentLoaded", () => {
+  likeThat()
+  makeAComment()
   pauseCounter()
+  subtractCounter()
+  addCounter()
+})
+
+function countSeconds() {
   if (!isPaused){
     seconds += 1;
     timer.innerText = seconds;
@@ -30,8 +37,8 @@ function addCounter(){
 
 function pauseCounter(){
   const buttonText = document.getElementById("pause")
-  document.addEventListener('click', (event) => {
-    if (event.target.id === 'pause'){
+  buttonText.addEventListener('click', (event) => {
+    if (buttonText.innerText === 'pause'){
       buttonText.innerText = "resume";
       isPaused = true
     } else if (buttonText.innerText === 'resume'){
@@ -41,7 +48,27 @@ function pauseCounter(){
       })
     }
 
+    function makeAComment(){
+      let form = document.getElementById('comment-input');
+      form = document.querySelector('form');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault()
+        addComment(e.target["comment-input"].value)
+      })
+    }
 
+  function addComment(comment){
+    let p = document.createElement('p')
+    p.textContent = comment
+    document.querySelector('#list').appendChild(p)
+  }
 
-subtractCounter()
-addCounter()
+  function likeThat(){
+    const heartButton = document.getElementById("heart")
+    heartButton.addEventListener('click', () => {
+      let p = document.createElement('p')
+      p.textContent = `you liked the number ${seconds}`
+      document.querySelector('#list').appendChild(p)
+    })
+  }
+ 
